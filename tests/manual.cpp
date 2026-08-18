@@ -34,13 +34,18 @@ int main(void) {
 
             for (size_t i = 0; i < bodies.size(); i++) {
                 PhysicsBodySnapshot snapshot = solver.get_snapshot(bodies[i]);
-                std::cout << "Body(" << i << ") "
+                std::cout << "Body(" << bodies[i].get_id() << ") "
                           << "pos=(" << snapshot.pos.x << ", " << snapshot.pos.y
                           << ") "
                           << "vel=(" << snapshot.vel.x << ", " << snapshot.vel.y
                           << ") "
                           << "acc=(" << snapshot.acc.x << ", " << snapshot.acc.y
                           << ")\n";
+            }
+
+            if (bodies.size()) {
+                solver.remove(bodies.front());
+                bodies.erase(bodies.begin());
             }
         }
     }

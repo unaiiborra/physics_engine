@@ -76,6 +76,18 @@ class PhysicsSolver {
 
     PhysicsBodySnapshot get_snapshot(PhysicsBody body);
 
+    decimal_t get_mass(PhysicsBody body) {
+        return 1 / inv_mass[body.get_id()];
+    }
+
+    decimal_t get_invmass(PhysicsBody body) {
+        return inv_mass[body.get_id()];
+    }
+
+    Vec2dec get_pos(PhysicsBody body) {
+        return pos[body.get_id()];
+    }
+
     void step(double dt);
 
   private:

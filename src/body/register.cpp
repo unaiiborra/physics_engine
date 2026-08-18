@@ -30,7 +30,7 @@ PhysicsBody PhysicsSolver::spawn(decimal_t mass, Vec2dec pos) {
 }
 
 void PhysicsSolver::remove(PhysicsBody body) {
-    size_t id = body.id;
+    size_t id = body.get_id();
 
     if (!bodies.count(id))
         return;
@@ -59,10 +59,10 @@ void PhysicsSolver::remove(PhysicsBody body) {
 }
 
 PhysicsBodySnapshot PhysicsSolver::get_snapshot(PhysicsBody body) {
-    if (!bodies.count(body.id))
+    if (!bodies.count(body.get_id()))
         return PhysicsBodySnapshot(Vec2<>(), Vec2<>(), Vec2<>());
 
-    size_t idx = bodies[body.id];
+    size_t idx = bodies[body.get_id()];
 
     return PhysicsBodySnapshot(pos[idx], vel[idx], acc[idx]);
 }
