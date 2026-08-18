@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.21)
 project(PhysicsEngine LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -19,3 +19,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/src
 )
+
+option(PHYSICS_ENGINE_BUILD_TESTS "build tests" ${PROJECT_IS_TOP_LEVEL})
+
+if(PHYSICS_ENGINE_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
