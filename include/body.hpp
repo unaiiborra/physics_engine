@@ -1,11 +1,15 @@
 #pragma once
 
 #include <atomic>
+#include <cassert>
 #include <cstddef>
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
 #include "types.hpp"
+
+class PhysicsSolver;
 
 class PhysicsBody {
     size_t id;
@@ -15,8 +19,20 @@ class PhysicsBody {
 };
 
 struct PhysicsBodySnapshot {
-    size_t id;
     Vec2<decimal_t> pos, vel, acc;
+};
+
+class PhysicsIntegrator {
+  public:
+    virtual void integrate(
+        double dt,
+        size_t count,
+        const decimal_t* acc,
+        decimal_t* vel,
+        decimal_t* pos
+    ) = 0;
+
+    virtual ~PhysicsIntegrator() = default;
 };
 
 class PhysicsSolver {
@@ -28,7 +44,13 @@ class PhysicsSolver {
     std::vector<decimal_t> inv_mass;
     std::vector<Vec2<decimal_t>> pos, vel, acc;
 
+    std::unique_ptr<PhysicsIntegrator> integrator = nullptr;
+
   public:
+    PhysicsSolver(std::unique_ptr<PhysicsIntegrator> integrator) {
+        set_integrator(std::move(integrator));
+    }
+
     PhysicsBody spawn(
         decimal_t mass,
         Vec2<decimal_t> pos,
@@ -37,7 +59,30 @@ class PhysicsSolver {
     );
 
     PhysicsBody spawn(decimal_t mass, Vec2<decimal_t> pos);
+
     void remove(PhysicsBody body);
 
+    void set_integrator(std::unique_ptr<PhysicsIntegrator> new_integrator) {
+        this->integrator = std::move(new_integrator);
+    }
+
+    std::unique_ptr<PhysicsIntegrator>& get_integrator() {
+        return integrator;
+    }
+
     void step(double dt);
+
+  private:
+    size_t get_size() {
+        size_t size = indexes.size();
+
+        assert(
+            size == pos.size() && size == vel.size() && size == acc.size()
+            && size == inv_mass.size()
+        );
+
+        return size;
+    }
+
+    void integrate(double dt);
 };

@@ -10,14 +10,7 @@ PhysicsBody PhysicsSolver::spawn(
     Vec2<decimal_t> velocity,
     Vec2<decimal_t> acceleration
 ) {
-    size_t idx = pos.size();
-
-#ifdef DEBUG
-    assert(
-        idx == vel.size() && idx == acc.size() && idx == inv_mass.size()
-        && idx == indexes.size()
-    );
-#endif
+    size_t idx = get_size();
 
     inv_mass.push_back(1 / mass);
     pos.push_back(position);
@@ -47,13 +40,13 @@ void PhysicsSolver::remove(PhysicsBody body) {
         return;
 
     size_t idx = bodies[id];
-    size_t last_idx = pos.size() - 1;
+    size_t last_idx = get_size() - 1;
 
     if (idx != last_idx) {
-        pos[idx] = pos[pos.size() - 1];
-        vel[idx] = vel[vel.size() - 1];
-        acc[idx] = acc[acc.size() - 1];
-        inv_mass[idx] = inv_mass[inv_mass.size() - 1];
+        pos[idx] = pos[last_idx];
+        vel[idx] = vel[last_idx];
+        acc[idx] = acc[last_idx];
+        inv_mass[idx] = inv_mass[last_idx];
 
         size_t moved_id = indexes[last_idx];
         indexes[idx] = moved_id;
