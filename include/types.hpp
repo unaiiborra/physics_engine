@@ -27,3 +27,7 @@ struct Vec2 {
         return Vec2<T>(this->x / b.x, this->y / b.y);
     }
 };
+
+typedef Vec2<float> Vec2f;
+typedef Vec2<double> Vec2d;
+typedef Vec2<decimal_t> Vec2dec;
