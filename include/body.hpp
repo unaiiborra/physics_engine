@@ -20,6 +20,15 @@ class PhysicsBody {
 
 struct PhysicsBodySnapshot {
     Vec2<decimal_t> pos, vel, acc;
+
+    PhysicsBodySnapshot(
+        Vec2<decimal_t> pos,
+        Vec2<decimal_t> vel,
+        Vec2<decimal_t> acc
+    ) :
+        pos(pos),
+        vel(vel),
+        acc(acc) {}
 };
 
 class PhysicsIntegrator {
@@ -70,18 +79,20 @@ class PhysicsSolver {
         return integrator;
     }
 
+    PhysicsBodySnapshot get_snapshot(PhysicsBody body);
+
     void step(double dt);
 
   private:
-    size_t get_size() {
-        size_t size = indexes.size();
+    size_t get_count() const {
+        size_t count = indexes.size();
 
         assert(
-            size == pos.size() && size == vel.size() && size == acc.size()
-            && size == inv_mass.size()
+            count == pos.size() && count == vel.size() && count == acc.size()
+            && count == inv_mass.size()
         );
 
-        return size;
+        return count;
     }
 
     void integrate(double dt);

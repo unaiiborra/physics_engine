@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstddef>
+#include <vector>
 
 #include "body.hpp"
 #include "types.hpp"
@@ -10,7 +11,7 @@ PhysicsBody PhysicsSolver::spawn(
     Vec2<decimal_t> velocity,
     Vec2<decimal_t> acceleration
 ) {
-    size_t idx = get_size();
+    size_t idx = get_count();
 
     inv_mass.push_back(1 / mass);
     pos.push_back(position);
@@ -40,7 +41,7 @@ void PhysicsSolver::remove(PhysicsBody body) {
         return;
 
     size_t idx = bodies[id];
-    size_t last_idx = get_size() - 1;
+    size_t last_idx = get_count() - 1;
 
     if (idx != last_idx) {
         pos[idx] = pos[last_idx];
@@ -60,4 +61,13 @@ void PhysicsSolver::remove(PhysicsBody body) {
 
     indexes.pop_back();
     bodies.erase(id);
+}
+
+PhysicsBodySnapshot PhysicsSolver::get_snapshot(PhysicsBody body) {
+    if (!bodies.count(body.id))
+        return PhysicsBodySnapshot(Vec2<>(), Vec2<>(), Vec2<>());
+
+    size_t idx = bodies[body.id];
+
+    return PhysicsBodySnapshot(pos[idx], vel[idx], acc[idx]);
 }
