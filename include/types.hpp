@@ -8,4 +8,20 @@ struct Vec2 {
 
   public:
     Vec2(T x, T y) : x(x), y(y) {}
+
+    Vec2<T> operator+(const Vec2<T>& b) {
+        return Vec2<T>(this->x + b.x, this->y + b.y);
+    }
+
+    Vec2<T> operator-(const Vec2<T>& b) {
+        return Vec2<T>(this->x - b.x, this->y - b.y);
+    }
+
+    Vec2<T> operator*(const Vec2<T>& b) {
+        return Vec2<T>(this->x * b.x, this->y * b.y);
+    }
+
+    Vec2<T> operator/(const Vec2<T>& b) {
+        return Vec2<T>(this->x / b.x, this->y / b.y);
+    }
 };
