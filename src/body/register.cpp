@@ -7,9 +7,9 @@
 
 PhysicsBody PhysicsSolver::spawn(
     decimal_t mass,
-    Vec2<decimal_t> position,
-    Vec2<decimal_t> velocity,
-    Vec2<decimal_t> acceleration
+    Vec2dec position,
+    Vec2dec velocity,
+    Vec2dec acceleration
 ) {
     size_t idx = get_count();
 
@@ -25,13 +25,8 @@ PhysicsBody PhysicsSolver::spawn(
     return PhysicsBody(id);
 }
 
-PhysicsBody PhysicsSolver::spawn(decimal_t mass, Vec2<decimal_t> pos) {
-    return this->spawn(
-        mass,
-        pos,
-        Vec2<decimal_t>(0.0, 0.0),
-        Vec2<decimal_t>(0.0, 0.0)
-    );
+PhysicsBody PhysicsSolver::spawn(decimal_t mass, Vec2dec pos) {
+    return this->spawn(mass, pos, Vec2dec(0.0, 0.0), Vec2dec(0.0, 0.0));
 }
 
 void PhysicsSolver::remove(PhysicsBody body) {

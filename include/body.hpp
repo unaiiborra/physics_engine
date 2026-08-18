@@ -14,18 +14,18 @@ class PhysicsSolver;
 class PhysicsBody {
     size_t id;
 
+  public:
     PhysicsBody(size_t id) : id(id) {}
-    friend class PhysicsSolver;
+
+    size_t get_id() const {
+        return id;
+    }
 };
 
 struct PhysicsBodySnapshot {
-    Vec2<decimal_t> pos, vel, acc;
+    Vec2dec pos, vel, acc;
 
-    PhysicsBodySnapshot(
-        Vec2<decimal_t> pos,
-        Vec2<decimal_t> vel,
-        Vec2<decimal_t> acc
-    ) :
+    PhysicsBodySnapshot(Vec2dec pos, Vec2dec vel, Vec2dec acc) :
         pos(pos),
         vel(vel),
         acc(acc) {}
@@ -51,7 +51,7 @@ class PhysicsSolver {
     std::vector<size_t> indexes; // idx to id
 
     std::vector<decimal_t> inv_mass;
-    std::vector<Vec2<decimal_t>> pos, vel, acc;
+    std::vector<Vec2dec> pos, vel, acc;
 
     std::unique_ptr<PhysicsIntegrator> integrator = nullptr;
 
@@ -60,14 +60,9 @@ class PhysicsSolver {
         set_integrator(std::move(integrator));
     }
 
-    PhysicsBody spawn(
-        decimal_t mass,
-        Vec2<decimal_t> pos,
-        Vec2<decimal_t> vel,
-        Vec2<decimal_t> acc
-    );
+    PhysicsBody spawn(decimal_t mass, Vec2dec pos, Vec2dec vel, Vec2dec acc);
 
-    PhysicsBody spawn(decimal_t mass, Vec2<decimal_t> pos);
+    PhysicsBody spawn(decimal_t mass, Vec2dec pos);
 
     void remove(PhysicsBody body);
 

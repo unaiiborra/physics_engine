@@ -15,9 +15,9 @@ int main(void) {
     for (size_t i = 0; i < 5; i++) {
         bodies.push_back(solver.spawn(
             i + 1,
-            Vec2<decimal_t>(5 - i, 5 + i),
-            Vec2<decimal_t>(5 - i, 5 + i),
-            Vec2<decimal_t>(5 - i, 5 + i)
+            Vec2dec(5 - i, 5 + i),
+            Vec2dec(5 - i, 5 + i),
+            Vec2dec(5 - i, 5 + i)
         ));
     }
 
