@@ -77,20 +77,32 @@ class PhysicsSolver {
     PhysicsBodySnapshot get_snapshot(PhysicsBody body);
 
     decimal_t get_mass(PhysicsBody body) {
-        return 1 / inv_mass[body.get_id()];
+        return 1 / inv_mass[get_idx(body)];
     }
 
     decimal_t get_invmass(PhysicsBody body) {
-        return inv_mass[body.get_id()];
+        return inv_mass[get_idx(body)];
     }
 
     Vec2dec get_pos(PhysicsBody body) {
-        return pos[body.get_id()];
+        return pos[get_idx(body)];
+    }
+
+    Vec2dec get_vel(PhysicsBody body) {
+        return vel[get_idx(body)];
+    }
+
+    Vec2dec get_acc(PhysicsBody body) {
+        return acc[get_idx(body)];
     }
 
     void step(double dt);
 
   private:
+    size_t get_idx(PhysicsBody body) const {
+        return bodies.at(body.get_id());
+    }
+
     size_t get_count() const {
         size_t count = indexes.size();
 
